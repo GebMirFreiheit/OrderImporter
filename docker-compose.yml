@@ -2,7 +2,12 @@ version: '3'
 
 services:
   web:
-    build: ./web
+    build: 
+      context: ./web
+      args:
+        - POSTGRES_DB=$POSTGRES_DB
+        - POSTGRES_USER=$POSTGRES_USER
+        - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/web_django
@@ -15,8 +20,6 @@ services:
     image: postgres
     volumes:
       - ./data/db:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    env_file:
+      - .env
     restart: always
