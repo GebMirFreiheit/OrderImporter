@@ -21,19 +21,20 @@ def get_orders():
     resp = service.spreadsheets().values().get(spreadsheetId='1Qkuo4NopE1XbEO0TbeAUpI-QVXcxDKlJpnOEExFghgs', range="Лист1!B2:Z1000").execute()
 
     rows = resp['values']
+    actual_data=[] #список номеров актуальных заказов (т.е. тех, которые на момент запроса есть в таблице)
+    #номер заказа и цена переводятся в int, срок поставки в date
     for row in rows:
         row[0] = int(row[0])
         row[1] = int(row[1])
         row[2] = datetime.strptime(row[2], '%d.%m.%Y')
+        actual_data.append(row[0])
     data = [dict(zip(['order_number','dollar_price','delivery_time'],row)) for row in rows]
     dollar_rate = get_dollar_exchange_rate()
-    actual_data=[]
     for new_order in data:
         dollar_price = new_order['dollar_price']
         ruble_price = round(dollar_price*dollar_rate,3)
         order,created = Order.objects.update_or_create(order_number=new_order['order_number'], defaults={'dollar_price':dollar_price,
             'delivery_time':new_order['delivery_time'],'ruble_price':ruble_price})
-        actual_data.append(order.order_number)
     all_orders = Order.objects.all()
     #удаление отсутствующих в таблице заказов
     for order in all_orders:

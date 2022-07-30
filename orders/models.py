@@ -5,5 +5,3 @@ class Order(models.Model):
     dollar_price = models.IntegerField()
     ruble_price = models.FloatField()
     delivery_time = models.DateField()
-
-
