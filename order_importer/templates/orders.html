@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    {% block content %}
+        <h2>Общая стоимость заказов в долларах: {{ total_dollar_price }}</h2>
+        <h2>Общая стоимость заказов в рублях: {{ total_ruble_price }}</h2>
+
+        <h3>Список заказов:</h3>
+        <table>
+            <tr>
+                <th>Заказ №</th>
+                <th>Стоимость,$</th>
+                <th>Стоимость,₽</th>
+                <th>Срок поставки</th>
+              </tr>
+            {% for order in orders %}
+                <tr>
+                    <th>{{ order.order_number }}</th>
+                    <th>{{ order.dollar_price }}</th>
+                    <th>{{ order.ruble_price }}</th>
+                    <th>{{ order.delivery_time }}</th>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endblock %}
+</body>
