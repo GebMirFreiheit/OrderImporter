@@ -56,7 +56,7 @@ ROOT_URLCONF = 'order_importer.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'order_importer/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'order_importer/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
